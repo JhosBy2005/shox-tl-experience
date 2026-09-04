@@ -1,0 +1,114 @@
+@import './tokens.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+  -webkit-text-size-adjust: 100%;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--ink-000);
+  color: var(--fog-900);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  /* El overflow-x en <html> y <body> evita el scroll horizontal que provoca
+     cualquier elemento a sangre con transform. */
+  overflow-x: hidden;
+  overscroll-behavior-y: none;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+#root {
+  isolation: isolate;
+  width: 100%;
+}
+
+img,
+svg,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+:where(a, button, [tabindex]):focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Enlace de salto: imprescindible con un pin de 480vh por delante. */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: var(--margin-x);
+  z-index: 999;
+  padding: var(--space-2) var(--space-3);
+  background: var(--fog-900);
+  color: var(--ink-000);
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  transition: top var(--dur-ui) var(--ease-out);
+}
+.skip-link:focus {
+  top: var(--space-2);
+}
+
+.u-mono {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  color: var(--fog-600);
+  font-variant-numeric: tabular-nums;
+}
+
+.u-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

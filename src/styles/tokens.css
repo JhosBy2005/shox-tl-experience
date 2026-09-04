@@ -1,0 +1,72 @@
+/**
+ * Design tokens — Nike Shox TL / Triple Black
+ *
+ * La paleta sale de la propia referencia: el producto no tiene color, tiene
+ * ACABADOS. La jerarquía de la interfaz se construye igual — por luz y
+ * densidad, no por color. Un único acento, usado tres veces en toda la página.
+ */
+
+:root {
+  /* ── Color ─────────────────────────────────────────────────────────── */
+  --ink-000: #000000; /* el vacío: fondo del canvas */
+  --ink-050: #0a0a0b; /* superficie base */
+  --ink-100: #121214; /* superficie elevada */
+  --ink-200: #1c1c20; /* borde duro */
+  --ink-300: #2a2a30; /* borde sutil */
+
+  --fog-400: #6e6e78; /* 3.8:1 — SOLO ≥24px o decorativo, nunca cuerpo */
+  --fog-600: #a8a8b3; /* 8.6:1 — texto secundario */
+  --fog-900: #f2f2f4; /* 17:1  — texto primario (no #fff: menos fatiga) */
+
+  --accent: #e4002b; /* el rojo del label de la lengüeta */
+  --accent-dim: #8c0019;
+  --focus: #7c8cff; /* anillo de foco: destaca sobre negro sin ser marca */
+
+  /* ── Tipografía ────────────────────────────────────────────────────── */
+  --font-display: 'Archivo', 'Arial Black', system-ui, sans-serif;
+  --font-body: 'Inter Tight', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+
+  --step--1: clamp(0.75rem, 0.72rem + 0.14vw, 0.875rem);
+  --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+  --step-1: clamp(1.33rem, 1.2rem + 0.6vw, 1.75rem);
+  --step-2: clamp(1.77rem, 1.5rem + 1.3vw, 2.75rem);
+  --step-3: clamp(2.36rem, 1.8rem + 2.8vw, 4.5rem);
+  --step-display: clamp(3.5rem, 15vw, 16rem);
+
+  --tracking-display: -0.035em;
+  --tracking-mono: 0.16em;
+
+  /* ── Espaciado (escala spacious 3/10) ──────────────────────────────── */
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 40px;
+  --space-5: 64px;
+  --space-6: 96px;
+  --space-7: 160px;
+  --space-8: 240px;
+
+  --gutter: 24px;
+  --margin-x: clamp(20px, 5vw, 96px);
+  --content-max: 1440px;
+
+  /* ── Motion ────────────────────────────────────────────────────────── */
+  --dur-micro: 150ms;
+  --dur-ui: 240ms;
+  --dur-scene: 700ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-inout: cubic-bezier(0.83, 0, 0.17, 1);
+
+  /* ── Layout ────────────────────────────────────────────────────────── */
+  --nav-h: 64px;
+  --z-canvas: 1;
+  --z-content: 2;
+  --z-chrome: 10;
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --nav-h: 80px;
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "name": "shox-tl-experience",
+  "version": "0.1.0",
+  "description": "Nike Shox TL - premium scroll-driven 3D product experience",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "model:build": "node scripts/build-model.mjs",
+    "model:optimize": "node scripts/optimize-model.mjs",
+    "model": "npm run model:build && npm run model:optimize",
+    "test": "playwright test",
+    "test:desktop": "playwright test --project=desktop",
+    "test:mobile": "playwright test --project=mobile",
+    "storyboard": "node scripts/capture-storyboard.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "private": "true",
+  "dependencies": {
+    "@gsap/react": "^2.1.2",
+    "@react-three/drei": "^10.7.8",
+    "@react-three/fiber": "^9.7.0",
+    "gsap": "^3.15.0",
+    "lenis": "^1.3.26",
+    "maath": "^0.10.8",
+    "react": "~19.2.8",
+    "react-dom": "~19.2.8",
+    "three": "^0.185.1",
+    "zustand": "^5.0.15"
+  },
+  "devDependencies": {
+    "@gltf-transform/core": "^4.5.0",
+    "@gltf-transform/extensions": "^4.5.0",
+    "@gltf-transform/functions": "^4.5.0",
+    "@playwright/test": "^1.62.1",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "@types/three": "^0.185.4",
+    "@vitejs/plugin-react": "^6.1.1",
+    "meshoptimizer": "^1.2.0",
+    "typescript": "^5.9.3",
+    "vite": "^8.2.2"
+  }
+}

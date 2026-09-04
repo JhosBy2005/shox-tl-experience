@@ -1,0 +1,840 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Nike Shox TL — Triple Black
+   Capa visual. La jerarquía se construye con luz y espacio, nunca con color.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── NAV ──────────────────────────────────────────────────────────────────── */
+.nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: 0 var(--margin-x);
+  z-index: var(--z-chrome);
+  /* Sobre negro se mantiene blanco; sobre un reflejo especular se invierte
+     solo. Nunca hay que decidir un color de nav. */
+  mix-blend-mode: difference;
+}
+.nav__brand {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.nav__brand-mark {
+  font-family: var(--font-display);
+  font-variation-settings: 'wdth' 120;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  font-size: var(--step-0);
+}
+.nav__brand-model {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  letter-spacing: var(--tracking-mono);
+  color: var(--fog-600);
+}
+.nav__links {
+  display: none;
+  gap: var(--space-4);
+  font-size: var(--step--1);
+  letter-spacing: 0.04em;
+}
+.nav__links a {
+  position: relative;
+  padding: 6px 0;
+}
+.nav__links a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-ui) var(--ease-out);
+}
+.nav__links a:hover::after,
+.nav__links a:focus-visible::after {
+  transform: scaleX(1);
+}
+.nav__price {
+  color: inherit;
+}
+@media (min-width: 768px) {
+  .nav__links {
+    display: flex;
+  }
+}
+
+/* ── CANVAS ───────────────────────────────────────────────────────────────── */
+.scene {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-canvas);
+  pointer-events: none;
+  transition: opacity var(--dur-scene) var(--ease-out);
+}
+.scene[aria-hidden='true'] {
+  opacity: 0;
+}
+.scene__vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 78% 68% at 50% 46%,
+    transparent 0%,
+    transparent 52%,
+    rgba(0, 0, 0, 0.42) 88%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+}
+.static-hero {
+  height: 100vh;
+}
+
+/* ── SECCIÓN PINNEADA ─────────────────────────────────────────────────────── */
+.pin {
+  position: relative;
+  /* La altura la fija el componente: 480/380/300vh según viewport. */
+}
+/* Sin envoltorio intermedio. `position: fixed` (igual que `sticky`) crea
+   contexto de apilamiento: un contenedor fijo alrededor de los capítulos
+   encerraba sus z-index por debajo del canvas, y el producto tapaba el
+   titular. Las tres capas son hermanas dentro de #root. */
+.chapters {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+/* Los capítulos centrados van DETRÁS del producto: tipografía enorme con la
+   zapatilla recortándose encima. Es la firma editorial de la pieza. */
+.chapters--behind {
+  z-index: 0;
+}
+.chapters--front {
+  z-index: 2;
+}
+
+.chapter {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-content: center;
+  gap: var(--space-3);
+  padding: calc(var(--nav-h) + var(--space-4)) var(--margin-x) var(--space-5);
+  /* --reveal lo escribe el driver de scroll, una vez por frame. */
+  --reveal: 0;
+  opacity: var(--reveal);
+  will-change: opacity;
+}
+.chapter--left {
+  justify-items: start;
+  text-align: left;
+}
+.chapter--right {
+  justify-items: end;
+  text-align: right;
+}
+/* El rail de progreso vive en el margen derecho: los capitulos alineados a
+   la derecha se apartan para no chocar con el ni con su contador. */
+@media (min-width: 1024px) {
+  .chapter--right {
+    padding-right: calc(var(--margin-x) + 72px);
+  }
+}
+.chapter--center {
+  justify-items: center;
+  text-align: center;
+  align-content: center;
+}
+.chapter--left > *,
+.chapter--right > * {
+  max-width: min(34ch, 32vw);
+}
+
+.chapter__eyebrow {
+  color: var(--fog-400);
+}
+.chapter--center .chapter__eyebrow {
+  color: var(--fog-600);
+}
+
+.chapter__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-variation-settings: 'wdth' 116;
+  font-weight: 700;
+  font-size: var(--step-3);
+  line-height: 0.92;
+  letter-spacing: var(--tracking-display);
+  text-wrap: balance;
+}
+.chapter__title--display {
+  font-size: var(--step-display);
+  font-weight: 800;
+  font-variation-settings: 'wdth' 122;
+  line-height: 0.84;
+  color: var(--fog-900);
+}
+
+.chapter__body {
+  margin: 0;
+  font-size: var(--step-0);
+  line-height: 1.55;
+  color: var(--fog-600);
+  text-wrap: pretty;
+}
+
+.chapter__counter {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  font-family: var(--font-display);
+  font-variation-settings: 'wdth' 120;
+  font-weight: 800;
+  font-size: clamp(4rem, 11vw, 11rem);
+  line-height: 0.86;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.04em;
+}
+.chapter__counter-label {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  font-weight: 400;
+  letter-spacing: var(--tracking-mono);
+  color: var(--fog-400);
+}
+
+.chapter__specs {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0;
+  min-width: min(280px, 60vw);
+}
+.chapter__spec {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: 10px 0;
+  border-top: 1px solid var(--ink-200);
+  font-variant-numeric: tabular-nums;
+}
+.chapter__spec dt {
+  color: var(--fog-400);
+}
+.chapter__spec dd {
+  margin: 0;
+  color: var(--fog-900);
+}
+
+/* Lista de componentes: en desktop la sustituyen las etiquetas ancladas en 3D,
+   pero se mantiene en el DOM para lectores de pantalla. */
+.chapter__parts {
+  display: none;
+  list-style: none;
+  margin: var(--space-1) 0 0;
+  padding: 0;
+  width: 100%;
+  counter-reset: parte;
+}
+.chapter__parts li {
+  display: grid;
+  gap: 1px;
+  padding: 9px 0;
+  border-top: 1px solid var(--ink-200);
+}
+.chapter__parts li::before {
+  counter-increment: parte;
+  content: '0' counter(parte);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: var(--tracking-mono);
+  color: var(--accent);
+}
+.chapter__parts-name {
+  font-size: var(--step-0);
+  color: var(--fog-900);
+}
+.chapter__parts-spec {
+  color: var(--fog-400);
+  font-size: 10px;
+}
+@media (max-width: 767px) {
+  .chapter__parts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: var(--space-2);
+  }
+  .chapter__parts-name {
+    font-size: var(--step--1);
+  }
+  .chapter__parts li {
+    padding: 6px 0;
+  }
+}
+@media (min-width: 768px) {
+  .chapter__parts {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+}
+
+/* ── Revelado por líneas ──────────────────────────────────────────────────── */
+.split {
+  display: block;
+}
+.split__line {
+  display: block;
+  overflow: hidden;
+  /* Escalonado calculado en CSS a partir de --reveal: animar N líneas cuesta
+     una sola escritura de estilo desde JS, no N. */
+  --lr: max(0, min(1, calc((var(--reveal, 0) - var(--i) * 0.055) * 1.55)));
+}
+.split__inner {
+  display: block;
+  transform: translateY(calc((1 - var(--lr)) * 105%));
+  opacity: var(--lr);
+}
+
+/* ── Señal de scroll ──────────────────────────────────────────────────────── */
+.cue {
+  position: fixed;
+  left: 50%;
+  bottom: var(--space-4);
+  translate: -50% 0;
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  z-index: 2;
+  --reveal: 1;
+  opacity: var(--reveal);
+  color: var(--fog-400);
+}
+.cue__line {
+  width: 1px;
+  height: 44px;
+  background: linear-gradient(to bottom, var(--fog-400), transparent);
+}
+
+/* ── Raíl de progreso ─────────────────────────────────────────────────────── */
+.rail {
+  position: fixed;
+  right: max(16px, calc(var(--margin-x) * 0.42));
+  top: 50%;
+  translate: 0 -50%;
+  z-index: var(--z-chrome);
+  display: none;
+  grid-template-columns: auto auto;
+  align-items: center;
+  gap: 12px;
+}
+@media (min-width: 1024px) {
+  .rail {
+    display: grid;
+  }
+}
+.rail__track {
+  position: relative;
+  width: 1px;
+  height: 168px;
+  background: var(--ink-300);
+}
+.rail__bar {
+  position: absolute;
+  inset: 0;
+  background: var(--fog-900);
+  transform-origin: top;
+  transform: scaleY(0);
+}
+.rail__marks {
+  list-style: none;
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+}
+.rail__mark {
+  display: block;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  position: relative;
+}
+.rail__mark::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--ink-300);
+  transition:
+    background var(--dur-ui) var(--ease-out),
+    scale var(--dur-ui) var(--ease-out);
+}
+.rail__mark:hover::before {
+  background: var(--fog-600);
+}
+.rail__mark.is-active::before {
+  background: var(--accent);
+  scale: 1.5;
+}
+.rail__index {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 14px);
+  white-space: nowrap;
+  color: var(--fog-400);
+}
+
+/* ── Etiquetas del despiece (drei <Html>) ─────────────────────────────────── */
+.part-label {
+  display: grid;
+  gap: 2px;
+  white-space: nowrap;
+  user-select: none;
+}
+/* En pantallas estrechas la etiqueta se ancla a la izquierda del punto para
+   no salirse por el borde derecho. */
+@media (max-width: 767px) {
+  .part-label-wrap {
+    transform-origin: right center;
+  }
+  .part-label {
+    white-space: normal;
+    max-width: 42vw;
+  }
+}
+.part-label__rule {
+  display: block;
+  width: 38px;
+  height: 1px;
+  background: var(--accent);
+  margin-bottom: 6px;
+}
+.part-label__name {
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--fog-900);
+}
+.part-label__spec {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fog-400);
+}
+
+/* ── Loader ───────────────────────────────────────────────────────────────── */
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: var(--space-2);
+  background: var(--ink-000);
+  transition:
+    opacity var(--dur-scene) var(--ease-out),
+    visibility var(--dur-scene);
+}
+.loader.is-leaving {
+  opacity: 0;
+  visibility: hidden;
+}
+.loader__count {
+  font-family: var(--font-display);
+  font-variation-settings: 'wdth' 122;
+  font-weight: 800;
+  font-size: clamp(5rem, 22vw, 18rem);
+  line-height: 0.8;
+  letter-spacing: -0.05em;
+  font-variant-numeric: tabular-nums;
+}
+.loader__label {
+  color: var(--fog-400);
+}
+.loader__track {
+  width: min(220px, 50vw);
+  height: 1px;
+  background: var(--ink-300);
+}
+.loader__bar {
+  display: block;
+  height: 100%;
+  background: var(--fog-900);
+  transform-origin: left;
+  transition: transform 200ms linear;
+}
+
+/* ── Secciones de contenido ───────────────────────────────────────────────── */
+/* Opaco y por encima de las capas fixed: al pasar el pin, las cubre. */
+.content {
+  position: relative;
+  z-index: 3;
+  background: var(--ink-000);
+}
+.section {
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding: var(--space-7) var(--margin-x);
+  border-top: 1px solid var(--ink-200);
+}
+.section__eyebrow {
+  margin: 0 0 var(--space-3);
+  color: var(--fog-400);
+}
+.section__title {
+  margin: 0 0 var(--space-5);
+  font-family: var(--font-display);
+  font-variation-settings: 'wdth' 116;
+  font-weight: 700;
+  font-size: var(--step-3);
+  line-height: 0.95;
+  letter-spacing: var(--tracking-display);
+  text-wrap: balance;
+}
+.section__title--big {
+  font-size: var(--step-display);
+  font-weight: 800;
+  line-height: 0.85;
+}
+.section__cols {
+  display: grid;
+  gap: var(--space-4);
+  color: var(--fog-600);
+  font-size: var(--step-0);
+  line-height: 1.6;
+  max-width: 76ch;
+}
+.section__cols p {
+  margin: 0;
+  text-wrap: pretty;
+}
+@media (min-width: 768px) {
+  .section__cols {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-5);
+  }
+}
+
+/* Specs */
+.specs {
+  margin: 0;
+  display: grid;
+}
+.specs__row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  gap: var(--space-2) var(--space-3);
+  padding: var(--space-3) 0;
+  border-top: 1px solid var(--ink-200);
+}
+.specs__key {
+  color: var(--fog-400);
+}
+.specs__value {
+  margin: 0;
+  font-family: var(--font-display);
+  font-variation-settings: 'wdth' 118;
+  font-weight: 700;
+  font-size: var(--step-2);
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+.specs__note {
+  margin: 0;
+  grid-column: 1 / -1;
+  color: var(--fog-600);
+  font-size: var(--step--1);
+}
+@media (min-width: 768px) {
+  .specs__row {
+    grid-template-columns: 200px 1fr auto;
+  }
+  .specs__note {
+    grid-column: auto;
+    order: 2;
+  }
+  .specs__value {
+    order: 3;
+  }
+}
+
+/* Detalles */
+.details {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-5);
+}
+@media (min-width: 768px) {
+  .details {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-5) var(--space-6);
+  }
+}
+.details__item {
+  display: grid;
+  gap: var(--space-2);
+  align-content: start;
+}
+.details__n {
+  color: var(--accent);
+}
+.details__title {
+  margin: 0;
+  font-size: var(--step-1);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+.details__body {
+  margin: 0;
+  color: var(--fog-600);
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+/* CTA */
+.sizes {
+  border: 0;
+  margin: 0 0 var(--space-5);
+  padding: 0;
+}
+.sizes__legend {
+  padding: 0;
+  margin-bottom: var(--space-2);
+  color: var(--fog-400);
+}
+.sizes__grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+.size {
+  /* 48px: por encima del mínimo táctil de 44 y con hueco entre objetivos. */
+  min-width: 56px;
+  min-height: 48px;
+  display: grid;
+  place-content: center;
+  border: 1px solid var(--ink-300);
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--fog-600);
+  cursor: pointer;
+  transition:
+    border-color var(--dur-micro) var(--ease-out),
+    color var(--dur-micro) var(--ease-out),
+    background var(--dur-micro) var(--ease-out);
+}
+.size:hover:not(.is-out) {
+  border-color: var(--fog-600);
+  color: var(--fog-900);
+}
+.size.is-on {
+  background: var(--fog-900);
+  border-color: var(--fog-900);
+  color: var(--ink-000);
+}
+.size.is-out {
+  color: var(--ink-300);
+  cursor: not-allowed;
+  text-decoration: line-through;
+}
+.size:has(:focus-visible) {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.cta__actions {
+  display: grid;
+  gap: var(--space-2);
+  justify-items: start;
+}
+.cta__note {
+  color: var(--fog-400);
+}
+
+.btn {
+  position: relative;
+  overflow: hidden;
+  min-height: 52px;
+  padding: 0 var(--space-4);
+  border: 1px solid var(--fog-900);
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  color: var(--fog-900);
+  isolation: isolate;
+}
+.btn__fill {
+  position: absolute;
+  inset: 0;
+  background: var(--fog-900);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform var(--dur-ui) var(--ease-out);
+  z-index: -1;
+}
+.btn__label {
+  position: relative;
+  transition: color var(--dur-ui) var(--ease-out);
+}
+.btn:hover:not(:disabled) .btn__fill,
+.btn:focus-visible:not(:disabled) .btn__fill {
+  transform: scaleY(1);
+}
+.btn:hover:not(:disabled) .btn__label,
+.btn:focus-visible:not(:disabled) .btn__label {
+  color: var(--ink-000);
+}
+.btn--solid:not(:disabled) .btn__fill {
+  transform: scaleY(1);
+}
+.btn--solid:not(:disabled) .btn__label {
+  color: var(--ink-000);
+}
+.btn--solid:hover:not(:disabled) .btn__fill {
+  transform: scaleY(0);
+}
+.btn--solid:hover:not(:disabled) .btn__label {
+  color: var(--fog-900);
+}
+.btn:disabled {
+  border-color: var(--ink-300);
+  color: var(--fog-400);
+  cursor: not-allowed;
+}
+
+.footer {
+  margin-top: var(--space-6);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--ink-200);
+  color: var(--fog-400);
+}
+.footer p {
+  margin: 0;
+}
+
+/* ── Fallback ─────────────────────────────────────────────────────────────── */
+.fallback {
+  position: relative;
+  z-index: var(--z-content);
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding: calc(var(--nav-h) + var(--space-5)) var(--margin-x) var(--space-6);
+  background: var(--ink-000);
+}
+.fallback__note {
+  color: var(--fog-400);
+  margin-bottom: var(--space-5);
+}
+.fallback__chapter {
+  padding: var(--space-4) 0;
+  border-top: 1px solid var(--ink-200);
+}
+.fallback__title {
+  margin: var(--space-2) 0;
+  font-family: var(--font-display);
+  font-variation-settings: 'wdth' 116;
+  font-weight: 700;
+  font-size: var(--step-2);
+  line-height: 1;
+  letter-spacing: var(--tracking-display);
+  white-space: pre-line;
+}
+.fallback__body {
+  margin: 0;
+  max-width: 64ch;
+  color: var(--fog-600);
+  line-height: 1.6;
+}
+.fallback__specs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin: var(--space-3) 0 0;
+}
+.fallback__specs div {
+  display: grid;
+  gap: 2px;
+}
+.fallback__specs dd {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Móvil: el producto ocupa el centro, el texto baja al pie ─────────────── */
+@media (max-width: 767px) {
+  /* En vertical el producto ocupa todo el ancho: un titular "detrás" quedaría
+     ilegible, así que los capítulos centrados pasan al frente. */
+  .chapters--behind {
+    z-index: 2;
+  }
+  .chapter {
+    align-content: end;
+    justify-items: start;
+    text-align: left;
+    padding-bottom: calc(var(--space-6) + env(safe-area-inset-bottom));
+  }
+  .chapter--center {
+    justify-items: center;
+    text-align: center;
+    align-content: center;
+  }
+  .chapter--left > *,
+  .chapter--right > * {
+    max-width: 100%;
+  }
+  .chapter__title {
+    font-size: var(--step-2);
+  }
+  .chapter__title--display {
+    font-size: clamp(4rem, 19vw, 8rem);
+  }
+  /* Con la lista de componentes delante, el cuerpo sobra y roba altura. */
+  .chapter:has(.chapter__parts) .chapter__body {
+    display: none;
+  }
+  .chapter__counter {
+    font-size: clamp(3.5rem, 22vw, 7rem);
+  }
+  .chapter__specs {
+    width: 100%;
+  }
+  .cue {
+    bottom: calc(var(--space-2) + env(safe-area-inset-bottom));
+  }
+}
+
+/* ── Movimiento reducido: nada se desplaza, todo queda legible ────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .split__inner {
+    transform: none;
+    opacity: 1;
+  }
+  .chapter {
+    opacity: 1;
+  }
+  .scene {
+    transition: none;
+  }
+}
