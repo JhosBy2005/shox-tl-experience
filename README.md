@@ -13,7 +13,7 @@ y se sacrifica el volteo a suela a propósito.
 npm install
 npm run model     # genera y optimiza los GLB (necesario la primera vez)
 npm run dev       # http://localhost:5173
-npm run dev       # http://localhost:5173/?lab  -> banco de pruebas del modelo
+                  # http://localhost:5173/?lab  -> banco de pruebas del modelo
 ```
 
 ---
