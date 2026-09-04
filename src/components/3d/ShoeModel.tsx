@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
 import * as THREE from 'three'
+import { asset } from '../../config/assets'
 import { createMaterials, disposeMaterials, type MaterialKey } from './materials'
 
 /** Contrato con build-model.mjs: estos seis nombres existen como nodos en el GLB. */
@@ -121,4 +122,4 @@ export function ShoeModel({ url, getExplode, damping = 0.12 }: Props) {
   )
 }
 
-useGLTF.preload('/models/shoe.glb')
+useGLTF.preload(asset('models/shoe.glb'))

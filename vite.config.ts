@@ -1,7 +1,14 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-export default defineConfig({
+export default defineConfig(({ command, isPreview }) => ({
+  /**
+   * GitHub Pages sirve los proyectos bajo `/<repo>/`, no en la raiz.
+   * Se aplica en el build y en `vite preview` -para poder verificar en local
+   * exactamente lo que sirve Pages- pero no en desarrollo, donde el servidor,
+   * los tests y el script de storyboard siguen apuntando a la raiz.
+   */
+  base: command === 'build' || isPreview ? '/shox-tl-experience/' : '/',
   plugins: [react()],
   build: {
     target: 'es2022',
@@ -28,4 +35,4 @@ export default defineConfig({
       },
     },
   },
-})
+}))

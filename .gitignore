@@ -6,3 +6,6 @@ dist-ssr
 test-results
 playwright-report
 storyboard
+
+# GLB intermedios: se regeneran con `npm run model:build`
+public/models/*-raw.glb

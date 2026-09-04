@@ -1,4 +1,5 @@
 import { useMemo } from 'react'
+import { asset } from '../config/assets'
 import { MQ } from '../config/breakpoints'
 import { useMediaQuery } from './useMediaQuery'
 
@@ -59,7 +60,7 @@ export function useDeviceTier(): DeviceProfile {
     return {
       tier,
       dpr: tier === 'high' ? [1, 2] : tier === 'mid' ? [1, 1.5] : [1, 1],
-      modelUrl: tier === 'high' ? '/models/shoe.glb' : '/models/shoe-lite.glb',
+      modelUrl: tier === 'high' ? asset('models/shoe.glb') : asset('models/shoe-lite.glb'),
       pointerParallax: finePointer && isDesktop && !reducedMotion,
       reducedMotion,
       isDesktop,

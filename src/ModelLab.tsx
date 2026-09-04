@@ -2,6 +2,7 @@ import { Suspense, useEffect, useRef, useState } from 'react'
 import { Canvas, useThree } from '@react-three/fiber'
 import { OrbitControls, PerspectiveCamera, Grid } from '@react-three/drei'
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib'
+import { asset } from './config/assets'
 import { Lighting } from './components/3d/Lighting'
 import { ShoeModel } from './components/3d/ShoeModel'
 import './styles/global.css'
@@ -54,7 +55,7 @@ export function ModelLab() {
         <Suspense fallback={null}>
           <ShoeModel
             key={lite ? 'lite' : 'full'}
-            url={lite ? '/models/shoe-lite.glb' : '/models/shoe.glb'}
+            url={lite ? asset('models/shoe-lite.glb') : asset('models/shoe.glb')}
             getExplode={() => explodeRef.current}
             damping={0.08}
           />
