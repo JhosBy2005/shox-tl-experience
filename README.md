@@ -1,7 +1,13 @@
 # Nike Shox TL — Triple Black
 
+**→ [Ver en vivo](https://jhosby2005.github.io/shox-tl-experience/)**
+· [Banco de pruebas del modelo](https://jhosby2005.github.io/shox-tl-experience/?lab)
+
 Experiencia de producto en WebGL dirigida por scroll. El modelo 3D es
 **paramétrico y se genera por código**: no hay ningún GLB descargado.
+
+Se ve a ancho de escritorio (≥1024 px): en vertical la timeline es más corta
+y se sacrifica el volteo a suela a propósito.
 
 ```bash
 npm install
@@ -198,8 +204,24 @@ Sin ellos la suite mediría una página que no es la real.
 
 ---
 
+## Despliegue
+
+GitHub Pages desde Actions (`.github/workflows/deploy.yml`). Cada push a `main`
+compila y publica.
+
+Pages sirve bajo `/<repo>/`, así que las rutas de `/public` pasan por
+`import.meta.env.BASE_URL` (ver `src/config/assets.ts`). Con rutas absolutas el
+GLB devuelve 404 en producción y la escena queda vacía **sin un solo error en
+consola** — es el fallo más fácil de no ver.
+
+`vite preview` aplica el mismo `base` que el build, para poder comprobar en
+local exactamente lo que sirve Pages.
+
+---
+
 ## Nota sobre la marca
 
-Pieza de estudio. Se usa el nombre real del producto a petición del cliente;
-no se reproduce el swoosh ni el wordmark oficial. La identidad visual del
-modelo son las doce columnas y el cage, no el logotipo.
+Pieza de estudio, sin relación con Nike, Inc. Se usa el nombre real del
+producto a petición del cliente; no se reproduce el swoosh ni el wordmark
+oficial. La identidad visual del modelo son las doce columnas y el cage, no el
+logotipo. Los datos técnicos son ilustrativos y el flujo de compra no es real.
